@@ -7,7 +7,7 @@ from fastapi import HTTPException
 
 class User(Model):
     id = fields.IntField(pk=True)
-    last_login = fields.DatetimeField(description="Last Login", default=datetime.datetime.now,null=True)
+    last_login = fields.DatetimeField(description="Last Login", default=None,null=True)
     picture = fields.CharField(max_length=200, default="",null=True)
     
     username = fields.CharField(50, unique=True)
@@ -19,27 +19,61 @@ class User(Model):
     is_blocked = fields.BooleanField(default = False)
     rank = fields.IntField(default = 1)
     
-    gender = fields.CharField(default = None)
+    gender = fields.BooleanField(default = None)
     age = fields.IntField(default = None)
     weight = fields.IntField(default = None)
     height = fields.IntField(default = None)
-    goal = fields.CharField(default = None)
-    experienceLevel = fields.CharField(default = None)
+    goal = fields.CharField(100, default = None)
+    experienceLevel = fields.CharField(100, default = None)
     
-    def verify_email_signup(self):
+    @classmethod
+    async def findUserByEmail(cls, email):
+        return await cls.filter(email = email).first()
+    @classmethod
+    async def verify_email_signup(cls):
+        '''
+        send a message to the mail with a verification link
+        '''
         pass
-    
-    def verify_password_login(self, password):
-        if self.password == password:
+        
+    #V2 add the hash thing
+    async def verify_password_login(self, x):
+        if self.password == x:
             return True
         return False
-
-
-class Expert(user):
-    Permitted = fields.BooleanField(default = True)
-    NumOfArticle = fields.IntField()
-
-class Trainer(user):
-    Stars = fields.IntField(5)
-    NumOfStudents = fields.IntField()
-
+        
+    @classmethod
+    async def validate(cls, fields, data):
+        for f in fields:
+            if f == 'username':
+                pass
+                # the username is not used
+            if f == 'email':
+                pass
+                # must have an @
+            if f == 'password':
+                pass
+                # the big password validation method from geeksforgeeks
+    async def setGender(self, data):
+        self.gender = data
+        self.save(update_fields = 'gender')
+    async def setAge(self, data):
+        self.age = data
+        self.save(update_fields = 'age')
+    async def setWeight(self, data):
+        self.weight = data
+        self.save(update_fields = 'weight')
+    async def setHeight(self, data):
+        self.height = data
+        self.save(update_fields = 'height')
+    async def setGoal(self, data):
+        self.goal = data
+        self.save(update_fields = 'goal')
+    async def setExprienceLevel(self, data):
+        self.experienceLevel = data
+        self.save(update_fields = 'experienceLevel')
+        
+class Expert(User):
+    pass
+class Trainer(User):
+    pass

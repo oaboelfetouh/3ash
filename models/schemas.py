@@ -6,7 +6,7 @@ class RegistrationIn(BaseModel):
     email: str = Body(..., example = "3amori@gmail.com")
     username: str = Body(..., example="Omar Aboelfetouh")
     password: str = Body(..., example = "star12")
-    Password_Again = Body(..., example = "star12")
+    Password_Again: str = Body(..., example = "star12")
     def verifyEmailAndUsername(self):
         return True
         # if the mail/user in the database return false
@@ -23,3 +23,6 @@ class RegistrationIn(BaseModel):
 class Login(BaseModel):
     email: str = Body(..., example = "3amori@gmail.com")
     password: str = Body(..., example = "star12")
+
+class Email(BaseModel):
+    email: str = Body(..., example = "3amori@gmail.com")
