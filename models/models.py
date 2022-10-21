@@ -128,3 +128,46 @@ class Expert(User):
     pass
 class Trainer(User):
     pass
+
+class Post():
+    #user = fields.ForeignKeyField(User)
+    picture = fields.CharField(max_length=200, default="",null=True)
+    # multible pictures and video
+    text = fields.TextField()
+    likes_no = fields.IntField(default = 0)
+    comments_no = fields.IntField(default = 0)
+    post_date = fields.DatetimeField(defualt = datetime.now(), null=True)
+    '''
+    validate:
+    Either text or photo are obligatory
+    The same person cannot like multible times
+    '''
+    
+class Story():
+    #user = fields.ForeignKeyField(User)
+    picture = fields.CharField(max_length=200, default="",null=True)
+    # multible pictures and video
+    views_no = fields.IntField(default = 0)
+    post_date = fields.DatetimeField(defualt = datetime.now(), null=True)
+    # expiry = fields.DatetimeField(defualt =, null=True)
+    '''
+    validate:
+    it has to be a picture :)
+    The same person cannot like multible times
+    '''
+    
+class Comment():
+    #user = fields.ForeignKeyField(User)
+    #post = fields.ForeignKeyField(Post)
+    text = fields.TextField()
+    likes_no = fields.IntField(default = 0)
+    post_date = fields.DatetimeField(defualt = datetime.now(), null=True)
+    # add the replies
+    '''
+    validate:
+    No impty comments
+    '''
+    
+class WorkoutPlans():
+    pass
+    
