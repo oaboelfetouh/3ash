@@ -7,17 +7,6 @@ class RegistrationIn(BaseModel):
     username: str = Body(..., example="Omar Aboelfetouh")
     password: str = Body(..., example = "star12")
     Password_Again: str = Body(..., example = "star12")
-    def verifyEmailAndUsername(self):
-        return True
-        # if the mail/user in the database return false
-    def verify_password_length(self):
-        if len(self.password) < 8:
-            return False
-        return True
-    def verify_password_again(self):
-        if self.password != self.Password_Again:
-            return False
-        return True
     
 
 class Login(BaseModel):
@@ -26,3 +15,7 @@ class Login(BaseModel):
 
 class Email(BaseModel):
     email: str = Body(..., example = "3amori@gmail.com")
+
+class NewPassword(BaseModel):
+    password: str = Body(..., example = "star12")
+    password_again: str = Body(..., example = "star12")

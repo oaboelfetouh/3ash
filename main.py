@@ -1,6 +1,4 @@
 from fastapi import Depends, FastAPI
-
-from dependencies import get_query_token, get_token_header
 from routes import register, home
 
 from jose import JWTError, jwt
@@ -17,10 +15,12 @@ from passlib.hash import bcrypt
 from tortoise.contrib.fastapi import register_tortoise
 
 
-app = FastAPI(dependencies=[Depends(get_query_token)])
+app = FastAPI(
+#dependencies=[Depends(get_query_token)]
+)
 
 
-app.include_router(register.router, prefix = '/user', tags = ['home'])
+app.include_router(register.router, prefix = '/user', tags = ['routes'])
 app.include_router(home.router, prefix = '/home', tags = ['home'])
 
 @app.get("/")
