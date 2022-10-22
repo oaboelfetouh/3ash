@@ -130,8 +130,9 @@ class Trainer(User):
     pass
 
 class Post():
+    id = fields.IntField(pk=True)
     #user = fields.ForeignKeyField(User)
-    picture = fields.CharField(max_length=200, default="",null=True)
+    picture = fields.CharField(max_length=99000000, default="",null=True)
     # multible pictures and video
     text = fields.TextField()
     likes_no = fields.IntField(default = 0)
@@ -140,10 +141,29 @@ class Post():
     '''
     validate:
     Either text or photo are obligatory
+    '''
+    @classmethod
+    async def validate_post (cls, data, sent_fields):
+        if data['picture'] == data['text'] == "": raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,detail='you need to type a text or upload a picture')
+        # add the valid picture thing
+    @classmethod
+    async def findById(cls, id):
+        return await cls.filter(id=id).first()
+        
+    @classmethod
+    async def whatTheUserFollows(cls, user_id):
+        pass
+    async def edit(self,data):
+        self.text = data['text']
+        self.picture = data['picture']
+        await self.save(update_fields=["text", "picture"])
+        
+    '''
     The same person cannot like multible times
     '''
     
 class Story():
+    id = fields.IntField(pk=True)
     #user = fields.ForeignKeyField(User)
     picture = fields.CharField(max_length=200, default="",null=True)
     # multible pictures and video
@@ -155,8 +175,12 @@ class Story():
     it has to be a picture :)
     The same person cannot like multible times
     '''
-    
+    @classmethod
+    async def whatTheUserFollows(cls, user_id):
+        pass
+        
 class Comment():
+    id = fields.IntField(pk=True)
     #user = fields.ForeignKeyField(User)
     #post = fields.ForeignKeyField(Post)
     text = fields.TextField()

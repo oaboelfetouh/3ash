@@ -19,3 +19,7 @@ class Email(BaseModel):
 class NewPassword(BaseModel):
     password: str = Body(..., example = "star12")
     password_again: str = Body(..., example = "star12")
+
+class PostIn(BaseModel):
+    text: str = Body(..., example = "What do you want to share?")
+    picture: str = Body(..., example = "add a picture link")

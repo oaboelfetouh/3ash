@@ -57,7 +57,7 @@ async def register(reg_pydantic : RegistrationIn):
         return await verify
     
     # save in database
-    user = await User.create(**reg_dict)
+    user = await model.create(**reg_dict)
     await user.save()
     # the token generation
     token = jwt.encode({"user_id": user.id}, JWT_SECRET, algorithm="HS256")
